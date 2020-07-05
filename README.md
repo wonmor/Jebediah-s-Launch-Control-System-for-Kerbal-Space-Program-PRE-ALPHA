@@ -1,1 +1,1 @@
-# Jebediah-s-Launch-Control-System-for-Kerbal-Space-Program-PRE-ALPHA
+# Jebs-LCS-for-KSP-PRE-ALPHA
