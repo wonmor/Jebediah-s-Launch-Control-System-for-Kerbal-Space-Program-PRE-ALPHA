@@ -1,6 +1,6 @@
 /* 
  * Jebediah's Launch Control System for Kerbal Space Program
- * Alpha Build 0.52
+ * Alpha Build 0.55
  * An Open-Source Project by John Seong
  */
 
@@ -18,6 +18,9 @@ char keys[ROWS][COLS] = {
   {'*', '0', '#'}
 };
 
+char thrustV, massV, gravityV;
+int timeV = constrain(timeV, 15, 120);
+
 byte rowPins[ROWS] = {12, 11, 10, 9};
 byte colPins[COLS] = {8, 7, 6};
 
@@ -27,7 +30,10 @@ bool keyDetect = false;
 bool menuKeyDetect = false;
 bool goHomeDetect = false;
 
-int countDownInput = constrain(countDownInput, 15, 100);
+bool countDownDetect = false;
+bool twrCalDetect = false;
+
+String timeValue, thrustValue, massValue, gravityValue;
 
 LiquidCrystal_I2C lcd(0x3F, 2, 1, 0, 4, 5, 6, 7, 3,POSITIVE);
 
@@ -35,7 +41,10 @@ void setup() {
   Serial.begin(9600);
   lcd.begin(16,2);
   lcd.clear();
+  
   Startup();
+  
+  timeV = 0;
 }
 
 void loop() {
@@ -47,6 +56,10 @@ void loop() {
 
   if(goHomeDetect == true) {
     GoHome();
+  }
+
+  if(countDownDetect == true) {
+    CountDownSequence();
   }
 }
 
@@ -60,7 +73,7 @@ void Startup() {
   delay(3000);
   
   lcd.clear();
-  lcd.print("Alpha Build 0.52");
+  lcd.print("Alpha Build 0.55");
 
   lcd.setCursor(0, 1);
   lcd.print(" STUDIO HORIZON");
@@ -68,7 +81,7 @@ void Startup() {
   delay(3000);
   
   lcd.clear();
-  lcd.print(" Welcome, User");
+  lcd.print("Welcome, Kerman");
   
   lcd.setCursor(0,1);
   lcd.print("Press any key...");
@@ -95,17 +108,18 @@ void ModeMenu() {
 
 void CountDown() {
   char key = keypad.getKey();
-  Serial.println(key);
   
   lcd.print("Time (sec): ");
-
-  lcd.setCursor(11, 0);
-  lcd.print(key);
 
   lcd.setCursor(0, 1);
   lcd.print("# to continue...");
 
   goHomeDetect = true;
+  countDownDetect = true;
+}
+
+void CountDown2() {
+  
 }
 
 void TwrCal() {
@@ -117,7 +131,7 @@ void TwrCal() {
    goHomeDetect = true;
 }
 
-// Actions
+// Actions & Behaviours
 void PressKey() {
   char key = keypad.getKey();
   if(key) {
@@ -155,4 +169,65 @@ void GoHome() {
       lcd.clear();
       ModeMenu();
   }
+}
+
+void CountDownSequence() {
+  char key = keypad.getKey();
+  if(key == '0') {
+    timeV = 0;
+  } else { timeV = (timeV * 10) + 0; }
+
+  if(key == '1') {
+    timeV = 0;
+  } else { timeV = (timeV * 10) + 1; }
+
+  if(key == '2') {
+    timeV = 2;
+  } else { timeV = (timeV * 10) + 2; }
+
+  if(key == '3') {
+    timeV = 3;
+  } else { timeV = (timeV * 10) + 3; }
+
+  if(key == '4') {
+    timeV = 4;
+  } else { timeV = (timeV * 10) + 4; }
+
+  if(key == '5') {
+    timeV = 5;
+  } else { timeV = (timeV * 10) + 5; }
+
+  if(key == '6') {
+    timeV = 6;
+  } else { timeV = (timeV * 10) + 6; }
+
+  if(key == '7') {
+    timeV = 7;
+  } else { timeV = (timeV * 10) + 7; }
+
+  if(key == '8') {
+    timeV = 8;
+  } else { timeV = (timeV * 10) + 8; }
+
+  if(key == '9') {
+    timeV = 9;
+  } else { timeV = (timeV * 10) + 9; }
+
+  if(key == '*') {
+    ModeMenu();
+  }
+
+  if(key == '#') {
+    CountDown2();
+  }
+
+  Serial.println(timeV);
+  lcd.setCursor(13, 0);
+  lcd.print(timeV);
+  
+  countDownDetect = false;
+}
+
+void CountDownSequence2() {
+  
 }
