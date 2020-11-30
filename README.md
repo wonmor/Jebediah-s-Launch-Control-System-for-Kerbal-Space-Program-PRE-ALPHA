@@ -1,7 +1,7 @@
 # Jebs-LCS-for-KSP-PRE-ALPHA
 WORK IN PROGRESS!
 
-Current Version: Alpha Build 2.65
+Current Version: Beta Build 1.00
 
 An automated countdown timer + macro keyboard for Kerbal Space Program that can be connected to the PC and autonomously launch the vehicle when the timer hits 0.
 
