@@ -1,6 +1,6 @@
 /*
    Jebediah's Launch Control System for Kerbal Space Program
-   Beta Build 1.00
+   Version 1.1
    An Open-Source Project by John Seong
 */
 
@@ -94,9 +94,9 @@ void setup() {
   Serial.begin(9600);
   lcd.begin(16, 2);
   Keyboard.begin();
-  lcdShow("  JEB'S LAUNCH", " CONTROL SYSTEM");
+  lcdShow("JEB'S LAUNCH", "CONTROL SYSTEM");
   delay(3000);
-  lcdShow("BETA BUILD 1.00", "STUDIO HORIZON");
+  lcdShow("VERSION 1.1", "STUDIO HORIZON");
   delay(3000);
   lcdShow("WELCOME, KERMAN.", "PRESS ANY KEY...");
   while (!keypad.getKey()) ;  // wait for key press
@@ -112,7 +112,7 @@ void loop() {
 
   switch (state) {
     case START:  // transitional state
-      lcdShow("1. LAUNCH SEQ.", "2. TWR CALC.");
+      lcdShow("1. LAUNCH SEQ.", "2. CONTROLS");
       noTone(buzzer);
       state = MENU;
     /* fallthrough */
@@ -122,34 +122,36 @@ void loop() {
         lcdShow("COUNTDOWN TIMER", "SECONDS: ");
         count = 0;
         state = SET_COUNT;
-        
-      } else if (key == '2') {  // TWR
-        lcdShow("TWR CALCULATOR", "THRUST: ");
-        thrust = 0, weight = 0, ratio = 0;
-        state = SET_THRUST;
-        
+
+      } else if (key == '2') {  // Controls
+        lcdShow("VEHICLE", "CONTROL MODE");
+        delay(1000);
+        lcdShow("1. RCS CONTROLS", "2. ENG CONTROLS");
+        state = VEHICLE_CONTROLS;
+
       } else if (key == '8') {
         state = START2;
       }
       break;
 
     case START2:
-      lcdShow("2. TWR CALC.", "3. CONTROLS");
+      lcdShow("2. CONTROLS", "3. TWR CALC.");
       state = MENU2;
-      /* fallthrough */
+    /* fallthrough */
 
     case MENU2:
-      if (key == '2') {  // TWR
+      if (key == '2') {  // Controls
+        lcdShow("VEHICLE", "CONTROL MODE");
+        delay(1000);
+        lcdShow("1. RCS CONTROLS", "2. ENG CONTROLS");
+        state = VEHICLE_CONTROLS;
+
+      } else if (key == '3') { // TWR
         lcdShow("TWR CALCULATOR", "THRUST: ");
         thrust = 0, weight = 0, ratio = 0;
         state = SET_THRUST;
-        
-      } else if (key == '3') {
-        lcdShow("VEHICLE", "CONTROL MODE");
-        delay(1000);
-        lcdShow("1. RCS CONTROLS", "2. ENGINE CONTROLS");
-        state = VEHICLE_CONTROLS;
-        
+
+
       } else if (key == '5') {
         state = START;
       }
@@ -159,14 +161,14 @@ void loop() {
       if (key >= '0' && key <= '9' && count <= 99) {
         lcd.print(key);
         count = 10 * count + (key - '0');
-        
+
       } else if (key == '#') {
         lcdShow("    T-MINUS", "     SECONDS");
         // Force a refresh on entering COUNT_DOWN:
         last_second = millis() - 1000;
         count++;
         state = COUNT_DOWN;
-        
+
       } else if (key == '*') {
         state = START;
       }
@@ -176,16 +178,16 @@ void loop() {
       if (millis() - last_second >= 1000) {
         last_second += 1000;
         count--;
-        
+
         if (count <= 10) {
           tone(buzzer, 500);
           delay(500);
           noTone(buzzer);
         }
-        
+
         if (count == 0) {
           Serial.println("Lift off!");
-          
+
         } else if (count < 0) {
           preMillis = millis() - 500;
           state = LAUNCH;
@@ -202,26 +204,28 @@ void loop() {
       tone(buzzer, 3000);
       if (millis() - preMillis >= 500) {
         preMillis += 500;
-        
+
         if (digitalRead(ledAbort) == LOW && digitalRead(ledStage) == LOW) {
           lcdShow(" T-ZERO WARNING", "CONFIRM IGNITION");
           digitalWrite(ledAbort, HIGH);
           digitalWrite(ledStage, HIGH);
-          
+
         } else if (digitalRead(ledAbort) == HIGH && digitalRead(ledStage) == HIGH) {
           lcd.clear();
           digitalWrite(ledAbort, LOW);
           digitalWrite(ledStage, LOW);
         }
-        
+
       } else if (key == '*' || (digitalRead(buttonAbort == HIGH) && digitalRead(buttonStage) == LOW)) {
-        lcdShow("LAUNCH ABORT", "SELECTED");
+        lcdShow("LAUNCH ABORT", "SELECTED!");
         digitalWrite(ledAbort, HIGH);
         digitalWrite(ledStage, LOW);
+        Keyboard.write(0xB2);
+        Keyboard.write(0xD4);
         delay(2000);
         digitalWrite(ledAbort, LOW);
         state = START;
-        
+
       } else if (key == '#' || (digitalRead(buttonStage == HIGH) && digitalRead(buttonAbort) == LOW)) {
         lcdShow("KERBIN, WE ARE", "GO FOR LAUNCH!");
         digitalWrite(ledAbort, LOW);
@@ -236,11 +240,11 @@ void loop() {
       if (key >= '0' && key <= '9' && thrust <= 9999) {
         lcd.print(key);
         thrust = 10 * thrust + (key - '0');
-        
+
       } else if (key == '#') {
         lcdShow("TWR CALCULATOR", "WEIGHT: ");
         state = SET_WEIGHT;
-        
+
       } else if (key == '*') {
         state = START;
       }
@@ -250,14 +254,14 @@ void loop() {
       if (key >= '0' && key <= '9' && weight <= 9999) {
         lcd.print(key);
         weight = 10 * weight + (key - '0');
-        
+
       } else if (key == '#') {
         lcdShow("THRUST-TO-WEIGHT", "RATIO: ");
         if (thrust != 0 || weight != 0) {
           ratio = thrust / weight;
           lcdShowResult(ratio);
         }
-        
+
       } else if (key == '*') {
         state = START;
       }
@@ -269,7 +273,7 @@ void loop() {
       Keyboard.write('z'); // Ignition
       delay(1500);
       Keyboard.write((char) 32); // Press space bar
-      lcdShow("KRAKEN BLESS", "AMERIKA!!!!!!!!!");
+      lcdShow("KRAKEN BLESS", "AMERIKA!");
       for (int thisNote = 0; thisNote < 101; thisNote++) {
         int noteDuration = 1000 / noteDurations[thisNote];
         tone(buzzer, melody[thisNote], noteDuration);
@@ -293,11 +297,11 @@ void loop() {
     case VEHICLE_CONTROLS:
       if (key == '1') {
         state = RCS_CONTROLS;
-        
+
       } else if (key == '2') {
         lcdShow("THROTTLE", "PRESS ARROW KEYS");
         state = ENGINE_CONTROLS;
-        
+
       } else if (key == '*') {
         state = START;
       }
@@ -307,7 +311,7 @@ void loop() {
       lcdShow("REACTION CONTROL", "PRESS ARROW KEYS");
       noTone(buzzer);
       state = RCS_CONTROLS_FN;
-      /* fallthrough */
+    /* fallthrough */
 
     case RCS_CONTROLS_FN:
       if (key == '1') {
@@ -365,19 +369,78 @@ void loop() {
         tone(buzzer, 500);
         delay(500);
         state = RCS_CONTROLS;
-        
+
       } else if (key == '*') {
         state = START;
+
+      } else if (digitalRead(buttonAbort == HIGH) && digitalRead(buttonStage) == LOW) {
+        lcdShow("LAUNCH ABORT", "SELECTED!");
+        tone(buzzer, 500);
+        digitalWrite(ledAbort, HIGH);
+        digitalWrite(ledStage, LOW);
+        Keyboard.write(0xB2);
+        Keyboard.write(0xD4);
+        delay(2000);
+        digitalWrite(ledAbort, LOW);
+        state = RCS_CONTROLS;
+
+      } else if (digitalRead(buttonStage == HIGH) && digitalRead(buttonAbort) == LOW) {
+        lcdShow("STAGE SEPARATION", "CONFIRMED!");
+        Keyboard.write((char) 32);
+        tone(buzzer, 500);
+        digitalWrite(ledAbort, LOW);
+        digitalWrite(ledStage, HIGH);
+        delay(2000);
+        digitalWrite(ledStage, LOW);
+        state = RCS_CONTROLS;
       }
       break;
 
     case ENGINE_CONTROLS:
-      lcdShow("THROTTLE", "PRESS ARROW KEYS");
+      lcdShow("FUEL CONTROL", "PRESS ARROW KEYS");
+      noTone(buzzer);
       state = ENGINE_CONTROLS_FN;
-      /* fallthrough */
+    /* fallthrough */
 
     case ENGINE_CONTROLS_FN:
+      if (key == '5') {
+        lcdShow("FUEL CONTROL", "[THROTTLE 100 %]");
+        Keyboard.write('z');
+        tone(buzzer, 500);
+        delay(500);
+        state = ENGINE_CONTROLS;
 
+      } else if (key == '8') {
+        lcdShow("FUEL CONTROL", "[THROTTLE 0 %]");
+        Keyboard.write('x');
+        tone(buzzer, 500);
+        delay(500);
+        state = ENGINE_CONTROLS;
+
+      } else if (key == '*') {
+        state = START;
+
+      } else if (digitalRead(buttonAbort == HIGH) && digitalRead(buttonStage) == LOW) {
+        lcdShow("LAUNCH ABORT", "SELECTED!");
+        tone(buzzer, 500);
+        digitalWrite(ledAbort, HIGH);
+        digitalWrite(ledStage, LOW);
+        Keyboard.write(0xB2);
+        Keyboard.write(0xD4);
+        delay(2000);
+        digitalWrite(ledAbort, LOW);
+        state = ENGINE_CONTROLS;
+
+      } else if (digitalRead(buttonStage == HIGH) && digitalRead(buttonAbort) == LOW) {
+        lcdShow("STAGE SEPARATION", "CONFIRMED!");
+        Keyboard.write((char) 32);
+        tone(buzzer, 500);
+        digitalWrite(ledAbort, LOW);
+        digitalWrite(ledStage, HIGH);
+        delay(2000);
+        digitalWrite(ledStage, LOW);
+        state = ENGINE_CONTROLS;
+      }
       break;
   }
 }
