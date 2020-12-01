@@ -5,7 +5,7 @@
 
 *FEATURES*
 1. Automated countdown & launch
-2. RCS & THROTTLE CONTROL
-3. SIMPLE THRUST-TO-WEIGHT RATIO CALCULATION
+2. RCS & Throttle control
+3. Simple thrust-to-weight ratio calculation
 
 *YOUTUBE VIDEO*  https://www.youtube.com/watch?v=1SmER5VwIt8
