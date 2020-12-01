@@ -3,7 +3,7 @@
    Version 1.1
    An Open-Source Project by John Seong
 
-*DESCRIPTION*
+*DESCRIPTION* 
 An automated countdown timer + macro keyboard + control device for Kerbal Space Program that can be connected to the PC and autonomously launch the vehicle when the timer hits 0.
 
 *FEATURES*
