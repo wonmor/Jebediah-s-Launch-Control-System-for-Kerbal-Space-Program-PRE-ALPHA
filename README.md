@@ -1,10 +1,15 @@
-# Jebs-LCS-for-KSP-PRE-ALPHA
-WORK IN PROGRESS!
+# Jebs-LCS-for-KSP
+   Jebediah's Launch Control System for Kerbal Space Program
+   Version 1.1
+   An Open-Source Project by John Seong
 
-Current Version: Beta Build 1.00
+~DESCRPTION~
+An automated countdown timer + macro keyboard + control device for Kerbal Space Program that can be connected to the PC and autonomously launch the vehicle when the timer hits 0.
 
-An automated countdown timer + macro keyboard for Kerbal Space Program that can be connected to the PC and autonomously launch the vehicle when the timer hits 0.
+~FEATURES~
+1. Automated countdown & launch
+2. RCS & THROTTLE CONTROL
+3. SIMPLE THRUST-TO-WEIGHT RATIO CALCULATION
 
-This is an open-source project (well not to flex I legit desinged this in like 30 sec so it's kinda funny calling it an ‘oPeN sOuRcE pRoJeCt’) which means that everyone will get an unlimited, FREE 4 life access to the code, design, and schematics. Speaking of which, honey is a good browser add-on that can make your life much easier. Side note: It will also going to support a simple thrust-to-weight ratio calculation.
-
-YouTube Video: https://www.youtube.com/watch?v=1SmER5VwIt8
+~YOUTUBE VIDEO~
+https://www.youtube.com/watch?v=1SmER5VwIt8
