@@ -1,6 +1,6 @@
 /*
    Jebediah's Launch Control System for Kerbal Space Program
-   Version 1.1
+   Version 1.5
    An Open-Source Project by John Seong
 */
 
@@ -96,7 +96,7 @@ void setup() {
   Keyboard.begin();
   lcdShow("JEB'S LAUNCH", "CONTROL SYSTEM");
   delay(3000);
-  lcdShow("VERSION 1.1", "STUDIO HORIZON");
+  lcdShow("VERSION 1.5", "STUDIO HORIZON");
   delay(3000);
   lcdShow("WELCOME, KERMAN.", "PRESS ANY KEY...");
   while (!keypad.getKey()) ;  // wait for key press
@@ -220,8 +220,11 @@ void loop() {
         lcdShow("LAUNCH ABORT", "SELECTED!");
         digitalWrite(ledAbort, HIGH);
         digitalWrite(ledStage, LOW);
-        Keyboard.write(0xB2);
-        Keyboard.write(0xD4);
+        Keyboard.write('x'); // MECO
+        delay(500);
+        Keyboard.write(0xB2); // for Mac users
+        Keyboard.write(0xD4); // for Windows users
+        Keyboard.write('z'); // Abort motors full throttle
         delay(2000);
         digitalWrite(ledAbort, LOW);
         state = START;
@@ -270,6 +273,7 @@ void loop() {
     case LAUNCH_CONFIRMED:
       tone(buzzer, 1000);
       lcdShow("MAIN ENGINE", "IGNITION!");
+      Keyboard.write((char) 32);
       Keyboard.write('z'); // Ignition
       delay(1500);
       Keyboard.write((char) 32); // Press space bar
@@ -378,8 +382,11 @@ void loop() {
         tone(buzzer, 500);
         digitalWrite(ledAbort, HIGH);
         digitalWrite(ledStage, LOW);
-        Keyboard.write(0xB2);
-        Keyboard.write(0xD4);
+        Keyboard.write('x'); // MECO
+        delay(500);
+        Keyboard.write(0xB2); // for Mac users
+        Keyboard.write(0xD4); // for Windows users
+        Keyboard.write('z'); // Abort motors full throttle
         delay(2000);
         digitalWrite(ledAbort, LOW);
         state = RCS_CONTROLS;
@@ -425,8 +432,11 @@ void loop() {
         tone(buzzer, 500);
         digitalWrite(ledAbort, HIGH);
         digitalWrite(ledStage, LOW);
-        Keyboard.write(0xB2);
-        Keyboard.write(0xD4);
+        Keyboard.write('x'); // MECO
+        delay(500);
+        Keyboard.write(0xB2); // for Mac users
+        Keyboard.write(0xD4); // for Windows users
+        Keyboard.write('z'); // Abort motors full throttle
         delay(2000);
         digitalWrite(ledAbort, LOW);
         state = ENGINE_CONTROLS;
