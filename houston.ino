@@ -1,6 +1,6 @@
 /*
    Jebediah's Launch Control System for Kerbal Space Program
-   Version 1.5
+   Version 2.0
    An Open-Source Project by John Seong
 */
 
@@ -49,11 +49,11 @@ const byte COLS = 3;
 
 const int buzzer = A3;
 
-const int ledAbort = 5;
-const int ledStage = A5;
+const int ledAbort = A5;
+const int ledStage = 5;
 
-const int buttonAbort = A4;
-const int buttonStage = 4;
+const int buttonAbort = 4;
+const int buttonStage = A4;
 
 char keys[ROWS][COLS] = {
   {'1', '2', '3'},
@@ -96,7 +96,7 @@ void setup() {
   Keyboard.begin();
   lcdShow("JEB'S LAUNCH", "CONTROL SYSTEM");
   delay(3000);
-  lcdShow("VERSION 1.5", "STUDIO HORIZON");
+  lcdShow("VERSION 2.0", "STUDIO HORIZON");
   delay(3000);
   lcdShow("WELCOME, KERMAN.", "PRESS ANY KEY...");
   while (!keypad.getKey()) ;  // wait for key press
@@ -112,7 +112,7 @@ void loop() {
 
   switch (state) {
     case START:  // transitional state
-      lcdShow("1. LAUNCH SEQ.", "2. CONTROLS");
+      lcdShow("1. LAUNCH SEQ.", "2. VEHICLE CTRL.");
       noTone(buzzer);
       state = MENU;
     /* fallthrough */
@@ -135,7 +135,7 @@ void loop() {
       break;
 
     case START2:
-      lcdShow("2. CONTROLS", "3. TWR CALC.");
+      lcdShow("2. VEHICLE CTRL.", "3. TWR CALC.");
       state = MENU2;
     /* fallthrough */
 
