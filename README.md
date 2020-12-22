@@ -8,7 +8,8 @@ Jebediah's Launch Control System for Kerbal Space Program | Version 2.0 | An Ope
 2. RCS & Throttle control
 3. Simple thrust-to-weight ratio calculation
 
-*YOUTUBE VIDEO* | https://www.youtube.com/watch?v=pBAoYTu1grg
+*YOUTUBE VIDEO*
+[![CLICK HERE](https://img.youtube.com/vi/l9Dpn6NV0MA/0.jpg)](https://www.youtube.com/watch?v=l9Dpn6NV0MA)
 
 *PICTURES*
 ![ScreenShot](IMG_1621.jpeg)
