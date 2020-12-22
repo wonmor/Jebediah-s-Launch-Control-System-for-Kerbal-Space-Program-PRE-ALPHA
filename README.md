@@ -9,7 +9,7 @@ An automated countdown timer, a macro keyboard, and a control device for Kerbal 
 3. Simple thrust-to-weight ratio calculation
 
 
-*YOUTUBE VIDEO* Click the image!
+*YOUTUBE VIDEO* – Click the image!
 
 [![CLICK HERE](https://img.youtube.com/vi/l9Dpn6NV0MA/0.jpg)](https://www.youtube.com/watch?v=l9Dpn6NV0MA)
 
