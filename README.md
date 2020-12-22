@@ -9,3 +9,10 @@ Jebediah's Launch Control System for Kerbal Space Program | Version 2.0 | An Ope
 3. Simple thrust-to-weight ratio calculation
 
 *YOUTUBE VIDEO*  https://www.youtube.com/watch?v=pBAoYTu1grg
+
+*SCREENSHOTS*
+![ScreenShot](IMG_1621.jpeg)
+![ScreenShot](IMG_1622.jpeg)
+![ScreenShot](IMG_1625.jpeg)
+![ScreenShot](IMG_1631.jpeg)
+![ScreenShot](IMG_1632.jpeg)
